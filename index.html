@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学生谈话记录表</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff6b6b;
+      margin-bottom: 30px;
+      font-size: 24px;
+    }
+
+    .form-section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      color: #ff6b6b;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #feca57;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ffeaa7;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #ff6b6b;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 20px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radio-option input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: #ff6b6b;
+    }
+
+    .voice-input {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .voice-btn {
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .voice-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    }
+
+    .voice-btn.recording {
+      background: linear-gradient(135deg, #ff4757, #ff6b81);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,71,87,0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(255,71,87,0); }
+    }
+
+    .voice-status {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 30px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255,107,107,0.4);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .student-type-badge {
+      display: inline-block;
+      padding: 5px 15px;
+      background: #ffeaa7;
+      color: #ff6b6b;
+      border-radius: 15px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    .success-message {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-message h2 {
+      color: #ff6b6b;
+      margin-bottom: 15px;
+    }
+
+    .success-message p {
+      color: #666;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 学生谈话记录表</h1>
+
+    <form id="questionnaireForm" action="https://formspree.io/f/xvgpqznl" method="POST">
+      
+      <!-- 基本信息 -->
+      <div class="form-section">
+        <div class="section-title">📝 基本信息</div>
+
+        <div class="form-group">
+          <label for="studentType">学生类型 *</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="studentType" value="新生" required onchange="toggleQuestions()">
+              新生
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="studentType" value="老生" required onchange="toggleQuestions()">
+              老生
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="name">姓名 *</label>
+          <input type="text" id="name" name="姓名" required>
+        </div>
+
+        <div class="form-group">
+          <label for="studentId">学号 *</label>
+          <input type="text" id="studentId" name="学号" required>
+        </div>
+
+        <div class="form-group">
+          <label for="college">学院 *</label>
+          <input type="text" id="college" name="学院" required>
+        </div>
+
+        <div class="form-group">
+          <label for="major">专业</label>
+          <input type="text" id="major" name="专业">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">联系方式 *</label>
+          <input type="tel" id="phone" name="联系方式" required>
+        </div>
+
+        <div class="form-group">
+          <label for="talkTime">谈话时间</label>
+          <input type="datetime-local" id="talkTime" name="谈话时间">
+        </div>
+
+        <div class="form-group">
+          <label for="talkLocation">谈话地点</label>
+          <input type="text" id="talkLocation" name="谈话地点">
+        </div>
+
+        <div class="form-group">
+          <label for="interviewer">谈话人</label>
+          <input type="text" id="interviewer" name="谈话人">
+        </div>
+      </div>
+
+      <!-- 通用问题 -->
+      <div class="form-section">
+        <div class="section-title">💬 谈话内容</div>
+
+        <div class="form-group">
+          <label>1. 入学以来，对学校的学习氛围、生活环境、管理制度等方面是否适应？</label>
+          <div class="voice-input">
+            <textarea name="问题 1_适应情况" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 1_适应情况')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>2. 目前在学习上遇到的最大困难是什么？（如：学习方法、专业兴趣、课程难度等）</label>
+          <div class="voice-input">
+            <textarea name="问题 2_学习困难" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 2_学习困难')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>3. 在生活上有什么困难或需求？（如：宿舍关系、经济困难、心理问题等）</label>
+          <div class="voice-input">
+            <textarea name="问题 3_生活困难" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 3_生活困难')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>4. 对本专业的培养目标、课程设置、就业前景等是否了解？</label>
+          <div class="voice-input">
+            <textarea name="问题 4_专业了解" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 4_专业了解')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>5. 有没有参加社团活动或学生组织？如果有，参与情况如何？</label>
+          <div class="voice-input">
+            <textarea name="问题 5_社团活动" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 5_社团活动')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>6. 对未来大学生活有什么规划或目标？</label>
+          <div class="voice-input">
+            <textarea name="问题 6_未来规划" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 6_未来规划')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <!-- 新生专属问题 -->
+        <div class="form-group new-student-only hidden">
+          <label>7. 【新生专属】是如何选择本专业的？是否了解专业特点？</label>
+          <div class="voice-input">
+            <textarea name="问题 7_专业选择" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 7_专业选择')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group new-student-only hidden">
+          <label>8. 【新生专属】入学后对专业的认知是否有变化？</label>
+          <div class="voice-input">
+            <textarea name="问题 8_专业认知变化" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 8_专业认知变化')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <!-- 老生专属问题 -->
+        <div class="form-group old-student-only hidden">
+          <label>7. 【老生专属】是否有挂科或学业预警情况？</label>
+          <div class="voice-input">
+            <textarea name="问题 7_学业情况" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 7_学业情况')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group old-student-only hidden">
+          <label>8. 【老生专属】是否有考研、就业、创业等明确方向？</label>
+          <div class="voice-input">
+            <textarea name="问题 8_发展方向" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 8_发展方向')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label>9. 其他需要说明的情况或问题</label>
+          <div class="voice-input">
+            <textarea name="问题 9_其他" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 9_其他')">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">提交问卷</button>
+    </form>
+
+    <div id="successMessage" class="success-message hidden">
+      <h2>✅ 提交成功！</h2>
+      <p>感谢您的填写，谈话记录已成功提交。</p>
+    </div>
+  </div>
+
+  <script>
+    // 切换问题显示
+    function toggleQuestions() {
+      const studentType = document.querySelector('input[name="studentType"]:checked').value;
+      const newStudentQuestions = document.querySelectorAll('.new-student-only');
+      const oldStudentQuestions = document.querySelectorAll('.old-student-only');
+
+      if (studentType === '新生') {
+        newStudentQuestions.forEach(el => el.classList.remove('hidden'));
+        oldStudentQuestions.forEach(el => el.classList.add('hidden'));
+      } else {
+        newStudentQuestions.forEach(el => el.classList.add('hidden'));
+        oldStudentQuestions.forEach(el => el.classList.remove('hidden'));
+      }
+    }
+
+    // 语音识别
+    function startRecognition(btn, textareaName) {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('您的浏览器不支持语音识别，请使用 Chrome 浏览器或手动输入。');
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.lang = 'zh-CN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      const textarea = btn.previousElementSibling;
+      const statusDiv = btn.nextElementSibling;
+
+      btn.classList.add('recording');
+      btn.innerHTML = '🔴 录音中...';
+      statusDiv.textContent = '正在聆听，请说话...';
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        textarea.value = textarea.value ? textarea.value + ' ' + transcript : transcript;
+        statusDiv.textContent = '识别完成！';
+        btn.classList.remove('recording');
+        btn.innerHTML = '🎤 语音输入';
+      };
+
+      recognition.onerror = function(event) {
+        statusDiv.textContent = '识别失败，请重试。';
+        btn.classList.remove('recording');
+        btn.innerHTML = '🎤 语音输入';
+      };
+
+      recognition.onend = function() {
+        btn.classList.remove('recording');
+        btn.innerHTML = '🎤 语音输入';
+      };
+
+      recognition.start();
+    }
+
+    // 表单提交处理
+    const form = document.getElementById('questionnaireForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = form.querySelector('.submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '提交中...';
+
+      const formData = new FormData(form);
+      
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          form.classList.add('hidden');
+          document.getElementById('successMessage').classList.remove('hidden');
+        } else {
+          alert('提交失败，请重试。');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '提交问卷';
+        }
+      } catch (error) {
+        alert('提交失败，请检查网络连接。');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '提交问卷';
+      }
+    });
+  </script>
+</body>
+</html>
