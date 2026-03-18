@@ -2,75 +2,97 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>学生谈话记录表</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
       background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
       min-height: 100vh;
-      padding: 20px;
+      padding: 15px;
+      line-height: 1.6;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
       background: white;
       border-radius: 20px;
-      padding: 30px;
+      padding: 25px 20px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
 
     h1 {
       text-align: center;
       color: #ff6b6b;
-      margin-bottom: 30px;
-      font-size: 24px;
+      margin-bottom: 25px;
+      font-size: 22px;
+      font-weight: 700;
     }
 
     .form-section {
-      margin-bottom: 25px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed #ffeaa7;
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
     }
 
     .section-title {
       color: #ff6b6b;
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #feca57;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-left: 12px;
+      border-left: 4px solid #ff6b6b;
+      background: linear-gradient(90deg, #fff5f5, transparent);
+      padding: 10px 12px 10px 12px;
+      border-left: 4px solid #ff6b6b;
+      border-radius: 0 10px 10px 0;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     label {
       display: block;
-      color: #333;
-      font-weight: 500;
-      margin-bottom: 8px;
-      font-size: 14px;
+      color: #2d3436;
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .required::after {
+      content: ' *';
+      color: #ff4757;
     }
 
     input[type="text"],
     input[type="tel"],
     input[type="email"],
+    input[type="number"],
     input[type="datetime-local"],
     select,
     textarea {
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px 16px;
       border: 2px solid #ffeaa7;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 16px;
-      transition: border-color 0.3s;
+      transition: all 0.3s;
+      background: #fffdf5;
+      font-family: inherit;
     }
 
     input:focus,
@@ -78,53 +100,91 @@
     textarea:focus {
       outline: none;
       border-color: #ff6b6b;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(255,107,107,0.1);
     }
 
     textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 100px;
+      line-height: 1.8;
     }
 
     .radio-group {
       display: flex;
-      gap: 20px;
+      gap: 25px;
+      flex-wrap: wrap;
     }
 
     .radio-option {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      padding: 10px 18px;
+      background: #fffdf5;
+      border-radius: 25px;
+      border: 2px solid #ffeaa7;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .radio-option:hover {
+      border-color: #ff6b6b;
+      background: #fff5f5;
     }
 
     .radio-option input[type="radio"] {
       width: 20px;
       height: 20px;
       accent-color: #ff6b6b;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"]:checked + span {
+      color: #ff6b6b;
+      font-weight: 600;
+    }
+
+    .radio-option span {
+      font-size: 15px;
+      font-weight: 500;
     }
 
     .voice-input {
       display: flex;
-      gap: 10px;
-      align-items: center;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .voice-input textarea {
+      flex: 1;
+      min-height: 100px;
     }
 
     .voice-btn {
       background: linear-gradient(135deg, #ff6b6b, #feca57);
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 14px 18px;
       border-radius: 25px;
       font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.3s;
+      white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(255,107,107,0.3);
     }
 
     .voice-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+      box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+    }
+
+    .voice-btn:active {
+      transform: translateY(0);
     }
 
     .voice-btn.recording {
@@ -133,14 +193,36 @@
     }
 
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,71,87,0.7); }
-      50% { box-shadow: 0 0 0 10px rgba(255,71,87,0); }
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(255,71,87,0.7);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 0 12px rgba(255,71,87,0);
+        transform: scale(1.02);
+      }
     }
 
     .voice-status {
-      font-size: 12px;
+      font-size: 13px;
       color: #999;
-      margin-top: 5px;
+      margin-top: 8px;
+      padding-left: 5px;
+    }
+
+    .voice-status.recording {
+      color: #ff4757;
+      font-weight: 500;
+    }
+
+    .voice-status.success {
+      color: #2ed573;
+      font-weight: 500;
+    }
+
+    .voice-status.error {
+      color: #ff4757;
+      font-weight: 500;
     }
 
     .submit-btn {
@@ -148,53 +230,137 @@
       background: linear-gradient(135deg, #ff6b6b, #feca57);
       color: white;
       border: none;
-      padding: 15px;
-      border-radius: 25px;
+      padding: 18px;
+      border-radius: 30px;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-top: 30px;
+      transition: all 0.3s;
+      margin-top: 20px;
+      box-shadow: 0 6px 20px rgba(255,107,107,0.35);
+      letter-spacing: 1px;
     }
 
     .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(255,107,107,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255,107,107,0.45);
+    }
+
+    .submit-btn:active {
+      transform: translateY(-1px);
     }
 
     .submit-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .hidden {
-      display: none;
-    }
-
-    .student-type-badge {
-      display: inline-block;
-      padding: 5px 15px;
-      background: #ffeaa7;
-      color: #ff6b6b;
-      border-radius: 15px;
-      font-size: 12px;
-      margin-left: 10px;
+      display: none !important;
     }
 
     .success-message {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
     }
 
     .success-message h2 {
       color: #ff6b6b;
       margin-bottom: 15px;
+      font-size: 24px;
     }
 
     .success-message p {
       color: #666;
-      line-height: 1.6;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .success-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #999;
+      margin-top: 6px;
+      padding-left: 5px;
+    }
+
+    .question-number {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: #ffeaa7;
+      color: #ff6b6b;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .badge-new {
+      background: #a8e6cf;
+      color: #00b894;
+    }
+
+    .badge-old {
+      background: #fdcb6e;
+      color: #d63031;
+    }
+
+    /* 移动端优化 */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 20px 15px;
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .section-title {
+        font-size: 16px;
+      }
+
+      .voice-input {
+        flex-direction: column;
+      }
+
+      .voice-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .radio-group {
+        gap: 12px;
+      }
+
+      .radio-option {
+        padding: 10px 15px;
+      }
     }
   </style>
 </head>
@@ -209,42 +375,48 @@
         <div class="section-title">📝 基本信息</div>
 
         <div class="form-group">
-          <label for="studentType">学生类型 *</label>
+          <label class="required">学生类型</label>
           <div class="radio-group">
             <label class="radio-option">
               <input type="radio" name="studentType" value="新生" required onchange="toggleQuestions()">
-              新生
+              <span>🌱 新生</span>
             </label>
             <label class="radio-option">
               <input type="radio" name="studentType" value="老生" required onchange="toggleQuestions()">
-              老生
+              <span>🌳 老生</span>
             </label>
           </div>
+          <div class="hint">选择您的学生类型，问题将自动调整</div>
         </div>
 
         <div class="form-group">
-          <label for="name">姓名 *</label>
-          <input type="text" id="name" name="姓名" required>
+          <label for="name" class="required">姓名</label>
+          <input type="text" id="name" name="姓名" required placeholder="请输入您的姓名">
         </div>
 
         <div class="form-group">
-          <label for="studentId">学号 *</label>
-          <input type="text" id="studentId" name="学号" required>
+          <label for="studentId" class="required">学号</label>
+          <input type="text" id="studentId" name="学号" required placeholder="请输入您的学号">
         </div>
 
         <div class="form-group">
-          <label for="college">学院 *</label>
-          <input type="text" id="college" name="学院" required>
+          <label for="college" class="required">学院</label>
+          <input type="text" id="college" name="学院" required placeholder="请输入您所在的学院">
         </div>
 
         <div class="form-group">
           <label for="major">专业</label>
-          <input type="text" id="major" name="专业">
+          <input type="text" id="major" name="专业" placeholder="请输入您的专业">
         </div>
 
         <div class="form-group">
-          <label for="phone">联系方式 *</label>
-          <input type="tel" id="phone" name="联系方式" required>
+          <label for="grade">年级</label>
+          <input type="text" id="grade" name="年级" placeholder="如：2024 级">
+        </div>
+
+        <div class="form-group">
+          <label for="phone" class="required">联系方式</label>
+          <input type="tel" id="phone" name="联系方式" required placeholder="请输入您的手机号码">
         </div>
 
         <div class="form-group">
@@ -254,12 +426,12 @@
 
         <div class="form-group">
           <label for="talkLocation">谈话地点</label>
-          <input type="text" id="talkLocation" name="谈话地点">
+          <input type="text" id="talkLocation" name="谈话地点" placeholder="如：学院办公室 302">
         </div>
 
         <div class="form-group">
           <label for="interviewer">谈话人</label>
-          <input type="text" id="interviewer" name="谈话人">
+          <input type="text" id="interviewer" name="谈话人" placeholder="辅导员/班主任姓名">
         </div>
       </div>
 
@@ -268,10 +440,10 @@
         <div class="section-title">💬 谈话内容</div>
 
         <div class="form-group">
-          <label>1. 入学以来，对学校的学习氛围、生活环境、管理制度等方面是否适应？</label>
+          <label><span class="question-number">1</span>入学以来，对学校的学习氛围、生活环境、管理制度等方面是否适应？有什么具体感受？</label>
           <div class="voice-input">
             <textarea name="问题 1_适应情况" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 1_适应情况')">
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -279,10 +451,10 @@
         </div>
 
         <div class="form-group">
-          <label>2. 目前在学习上遇到的最大困难是什么？（如：学习方法、专业兴趣、课程难度等）</label>
+          <label><span class="question-number">2</span>目前在学习上遇到的最大困难是什么？（如：学习方法、专业兴趣、课程难度、时间管理等）</label>
           <div class="voice-input">
             <textarea name="问题 2_学习困难" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 2_学习困难')">
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -290,10 +462,10 @@
         </div>
 
         <div class="form-group">
-          <label>3. 在生活上有什么困难或需求？（如：宿舍关系、经济困难、心理问题等）</label>
+          <label><span class="question-number">3</span>在生活上有什么困难或需求？（如：宿舍关系、经济困难、心理问题、人际关系等）</label>
           <div class="voice-input">
             <textarea name="问题 3_生活困难" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 3_生活困难')">
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -301,10 +473,10 @@
         </div>
 
         <div class="form-group">
-          <label>4. 对本专业的培养目标、课程设置、就业前景等是否了解？</label>
+          <label><span class="question-number">4</span>对本专业的培养目标、课程设置、就业前景等是否了解？是通过什么渠道了解的？</label>
           <div class="voice-input">
             <textarea name="问题 4_专业了解" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 4_专业了解')">
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -312,10 +484,10 @@
         </div>
 
         <div class="form-group">
-          <label>5. 有没有参加社团活动或学生组织？如果有，参与情况如何？</label>
+          <label><span class="question-number">5</span>有没有参加社团活动或学生组织？如果有，参与情况如何？收获是什么？</label>
           <div class="voice-input">
             <textarea name="问题 5_社团活动" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 5_社团活动')">
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -323,10 +495,21 @@
         </div>
 
         <div class="form-group">
-          <label>6. 对未来大学生活有什么规划或目标？</label>
+          <label><span class="question-number">6</span>与同学、老师的关系如何？有没有遇到人际交往方面的困扰？</label>
           <div class="voice-input">
-            <textarea name="问题 6_未来规划" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 6_未来规划')">
+            <textarea name="问题 6_人际关系" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group">
+          <label><span class="question-number">7</span>对未来大学生活有什么规划或目标？（如：学习目标、能力提升、证书考取等）</label>
+          <div class="voice-input">
+            <textarea name="问题 7_未来规划" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -335,10 +518,10 @@
 
         <!-- 新生专属问题 -->
         <div class="form-group new-student-only hidden">
-          <label>7. 【新生专属】是如何选择本专业的？是否了解专业特点？</label>
+          <label><span class="question-number">8</span><span class="badge badge-new">新生专属</span>是如何选择本专业的？是自愿选择还是调剂？是否了解专业特点？</label>
           <div class="voice-input">
-            <textarea name="问题 7_专业选择" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 7_专业选择')">
+            <textarea name="问题 8_专业选择" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -346,10 +529,21 @@
         </div>
 
         <div class="form-group new-student-only hidden">
-          <label>8. 【新生专属】入学后对专业的认知是否有变化？</label>
+          <label><span class="question-number">9</span><span class="badge badge-new">新生专属</span>入学后对专业的认知是否有变化？与预期有什么差异？</label>
           <div class="voice-input">
-            <textarea name="问题 8_专业认知变化" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 8_专业认知变化')">
+            <textarea name="问题 9_专业认知变化" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group new-student-only hidden">
+          <label><span class="question-number">10</span><span class="badge badge-new">新生专属</span>从高中到大学，学习方式和生活节奏的转变适应得怎么样？有什么困惑？</label>
+          <div class="voice-input">
+            <textarea name="问题 10_转变适应" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -358,10 +552,10 @@
 
         <!-- 老生专属问题 -->
         <div class="form-group old-student-only hidden">
-          <label>7. 【老生专属】是否有挂科或学业预警情况？</label>
+          <label><span class="question-number">8</span><span class="badge badge-old">老生专属</span>目前的学习成绩如何？是否有挂科或学业预警情况？原因是什么？</label>
           <div class="voice-input">
-            <textarea name="问题 7_学业情况" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 7_学业情况')">
+            <textarea name="问题 8_学业情况" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -369,10 +563,21 @@
         </div>
 
         <div class="form-group old-student-only hidden">
-          <label>8. 【老生专属】是否有考研、就业、创业等明确方向？</label>
+          <label><span class="question-number">9</span><span class="badge badge-old">老生专属</span>是否有考研、就业、创业、考公等明确方向？为此做了哪些准备？</label>
           <div class="voice-input">
-            <textarea name="问题 8_发展方向" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 8_发展方向')">
+            <textarea name="问题 9_发展方向" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
+              🎤 语音输入
+            </button>
+          </div>
+          <div class="voice-status"></div>
+        </div>
+
+        <div class="form-group old-student-only hidden">
+          <label><span class="question-number">10</span><span class="badge badge-old">老生专属</span>在专业学习或实践方面有什么收获和体会？对学弟学妹有什么建议？</label>
+          <div class="voice-input">
+            <textarea name="问题 10_收获建议" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -380,10 +585,10 @@
         </div>
 
         <div class="form-group">
-          <label>9. 其他需要说明的情况或问题</label>
+          <label><span class="question-number">11</span>其他需要说明的情况、问题或对学院工作的意见建议</label>
           <div class="voice-input">
-            <textarea name="问题 9_其他" placeholder="请输入您的回答..."></textarea>
-            <button type="button" class="voice-btn" onclick="startRecognition(this, '问题 9_其他')">
+            <textarea name="问题 11_其他" placeholder="请输入您的回答..."></textarea>
+            <button type="button" class="voice-btn" onclick="startRecognition(this)">
               🎤 语音输入
             </button>
           </div>
@@ -391,23 +596,35 @@
         </div>
       </div>
 
-      <button type="submit" class="submit-btn">提交问卷</button>
+      <button type="submit" class="submit-btn">✅ 提交问卷</button>
     </form>
 
     <div id="successMessage" class="success-message hidden">
-      <h2>✅ 提交成功！</h2>
-      <p>感谢您的填写，谈话记录已成功提交。</p>
+      <div class="success-icon">✅</div>
+      <h2>提交成功！</h2>
+      <p>感谢您的填写，谈话记录已成功提交。<br>辅导员会及时查看并跟进您的情况。</p>
     </div>
   </div>
 
   <script>
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查浏览器兼容性
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        console.warn('当前浏览器不支持语音识别，请改用 Chrome 浏览器');
+      }
+    });
+
     // 切换问题显示
     function toggleQuestions() {
-      const studentType = document.querySelector('input[name="studentType"]:checked').value;
+      const studentType = document.querySelector('input[name="studentType"]:checked');
+      if (!studentType) return;
+
+      const value = studentType.value;
       const newStudentQuestions = document.querySelectorAll('.new-student-only');
       const oldStudentQuestions = document.querySelectorAll('.old-student-only');
 
-      if (studentType === '新生') {
+      if (value === '新生') {
         newStudentQuestions.forEach(el => el.classList.remove('hidden'));
         oldStudentQuestions.forEach(el => el.classList.add('hidden'));
       } else {
@@ -416,47 +633,103 @@
       }
     }
 
-    // 语音识别
-    function startRecognition(btn, textareaName) {
-      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('您的浏览器不支持语音识别，请使用 Chrome 浏览器或手动输入。');
+    // 语音识别功能
+    function startRecognition(btn) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      
+      if (!SpeechRecognition) {
+        alert('您的浏览器不支持语音识别功能。\n\n请使用 Chrome 浏览器（推荐）或 Edge 浏览器打开此页面。');
         return;
       }
 
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      
-      recognition.lang = 'zh-CN';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
       const textarea = btn.previousElementSibling;
       const statusDiv = btn.nextElementSibling;
 
+      // 检查权限
+      recognition.lang = 'zh-CN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      // 更新 UI 状态
       btn.classList.add('recording');
       btn.innerHTML = '🔴 录音中...';
-      statusDiv.textContent = '正在聆听，请说话...';
+      statusDiv.textContent = '🎙️ 正在聆听，请说话...';
+      statusDiv.className = 'voice-status recording';
 
+      // 开始识别
+      try {
+        recognition.start();
+      } catch (e) {
+        statusDiv.textContent = '❌ 启动失败，请重试';
+        statusDiv.className = 'voice-status error';
+        btn.classList.remove('recording');
+        btn.innerHTML = '🎤 语音输入';
+        return;
+      }
+
+      // 识别成功
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
-        textarea.value = textarea.value ? textarea.value + ' ' + transcript : transcript;
-        statusDiv.textContent = '识别完成！';
-        btn.classList.remove('recording');
-        btn.innerHTML = '🎤 语音输入';
+        const confidence = Math.round(event.results[0][0].confidence * 100);
+        
+        if (textarea.value) {
+          textarea.value = textarea.value + '\n' + transcript;
+        } else {
+          textarea.value = transcript;
+        }
+        
+        statusDiv.textContent = '✅ 识别完成！置信度：' + confidence + '%';
+        statusDiv.className = 'voice-status success';
+        
+        // 恢复按钮状态
+        setTimeout(() => {
+          btn.classList.remove('recording');
+          btn.innerHTML = '🎤 语音输入';
+          statusDiv.textContent = '';
+          statusDiv.className = 'voice-status';
+        }, 2000);
       };
 
+      // 识别错误
       recognition.onerror = function(event) {
-        statusDiv.textContent = '识别失败，请重试。';
+        let errorMsg = '识别失败';
+        switch(event.error) {
+          case 'no-speech':
+            errorMsg = '❌ 未检测到语音，请重试';
+            break;
+          case 'audio-capture':
+            errorMsg = '❌ 未找到麦克风，请检查权限';
+            break;
+          case 'not-allowed':
+            errorMsg = '❌ 麦克风权限被拒绝，请在浏览器设置中允许';
+            break;
+          case 'network':
+            errorMsg = '❌ 网络错误，请检查网络连接';
+            break;
+          default:
+            errorMsg = '❌ 识别失败：' + event.error;
+        }
+        
+        statusDiv.textContent = errorMsg;
+        statusDiv.className = 'voice-status error';
         btn.classList.remove('recording');
         btn.innerHTML = '🎤 语音输入';
       };
 
+      // 识别结束
       recognition.onend = function() {
+        // 如果是因为错误结束，已经处理过了
+        if (!btn.classList.contains('recording')) return;
+        
         btn.classList.remove('recording');
         btn.innerHTML = '🎤 语音输入';
+        if (statusDiv.className === 'voice-status recording') {
+          statusDiv.textContent = '';
+          statusDiv.className = 'voice-status';
+        }
       };
-
-      recognition.start();
     }
 
     // 表单提交处理
@@ -465,8 +738,9 @@
       e.preventDefault();
       
       const submitBtn = form.querySelector('.submit-btn');
+      const originalText = submitBtn.textContent;
       submitBtn.disabled = true;
-      submitBtn.textContent = '提交中...';
+      submitBtn.textContent = '⏳ 提交中...';
 
       const formData = new FormData(form);
       
@@ -482,16 +756,30 @@
         if (response.ok) {
           form.classList.add('hidden');
           document.getElementById('successMessage').classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          alert('提交失败，请重试。');
+          const errorData = await response.json().catch(() => ({}));
+          alert('提交失败：' + (errorData.error || '请重试'));
           submitBtn.disabled = false;
-          submitBtn.textContent = '提交问卷';
+          submitBtn.textContent = originalText;
         }
       } catch (error) {
-        alert('提交失败，请检查网络连接。');
+        console.error('提交错误:', error);
+        alert('提交失败，请检查网络连接后重试。');
         submitBtn.disabled = false;
-        submitBtn.textContent = '提交问卷';
+        submitBtn.textContent = originalText;
       }
+    });
+
+    // 防止重复提交
+    let lastSubmitTime = 0;
+    form.addEventListener('submit', function(e) {
+      const now = Date.now();
+      if (now - lastSubmitTime < 3000) {
+        e.preventDefault();
+        return false;
+      }
+      lastSubmitTime = now;
     });
   </script>
 </body>
